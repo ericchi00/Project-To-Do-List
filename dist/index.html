@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To Do List</title>
 </head>
+
 <body>
-    <div class="contentWraper">
-        <header></header>
-        
-        <footer></footer>
+    <header>To Do List</header>
+    <div class="contentWrapper">
+        <div class="leftColumn">
+            <p>Projects</p>
+            <button class="createProjects">Create Projects</button>
+            <ul>
+            </ul>
+        </div>
+        <div class="content">
+        </div>
     </div>
+    <div class="formWrapper">
+        <form action="test" id="form">
+            <legend>New Item</legend>
+            <fieldset>
+                <label for="title">Title: </label>
+                <input type="text" name="title" id="title">
+                <label for="description">Description: </label>
+                <textarea name="description" id="description" cols="50" rows="10"></textarea>
+                <label for="dueDate">Due Date:</label>
+                <input type="datetime-local" name="dueDate" id="dueDate">
+                <p>Priority:</p>
+                <div id="radio-group">
+                    <input type="radio" name="priority" id="low" value="low">
+                    <label for="low">Low</label>
+                    <input type="radio" name="priority" id="medium" value="medium">
+                    <label for="medium">Medium</label>
+                    <input type="radio" name="priority" id="high" value="high">
+                    <label for="high">High</label>
+                </div>
+                <div class="submitWrapper">
+                    <button type="button" id="submit">Submit</button>
+                    <button type="button" id="close">Close</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <footer>Built by <a href="https://github.com/ericchi00">Eric Chi</a></footer>
     <script src="main.js" defer></script>
 </body>
+
 </html>
