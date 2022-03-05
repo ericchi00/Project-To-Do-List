@@ -3,25 +3,24 @@ import { createsToDoItem } from './dom.js';
 import { format } from 'date-fns'
 import { parseISO } from 'date-fns'
 
-
-
-const Item = (title, dueDate, priority, description ) => {
+const Item = (title, dueDate, priority, description) => {
     return { title, dueDate, priority, description };
 };
 
-const projectList = (() => {
-    const listArray = [];
+const defaultList = (() => {
+    let listArray = [];
     const submit = document.querySelector('#submit');
-    const form = document.querySelector('#form')
+    const form = document.querySelector('#form');
 
     function displayItems(arr) {
         createsToDoItem.createCard();
+        addRemoveFunction();
         const cards = document.querySelectorAll('.card');
         arr.forEach((item, index) => {
-            document.querySelectorAll('.title')[index].textContent = 'Title: ' + `${item.title}`;
-            document.querySelectorAll('.dueDate')[index].textContent = 'Due Date: ' + `${item.dueDate}`;
-            document.querySelectorAll('.priority')[index].textContent = 'Priority: ' + `${item.priority}`;
-            document.querySelectorAll('.description')[index].textContent = `${item.description}`;
+            cards[index].querySelector('.title').textContent = 'Title: ' + `${item.title}`;
+            cards[index].querySelector('.dueDate').textContent = 'Due Date: ' + `${item.dueDate}`;
+            cards[index].querySelector('.priority').textContent = 'Priority: ' + `${item.priority}`;
+            cards[index].querySelector('.description').textContent = `${item.description}`;
             cards[index].setAttribute('cardCount', index);
         });
     }
@@ -36,7 +35,6 @@ const projectList = (() => {
                 document.querySelector('#description').value,
             );
             listArray.push(itemObj);
-            console.table(listArray);
             displayItems(listArray);
             form.reset();
             closeForm();
@@ -56,15 +54,24 @@ const projectList = (() => {
     function closeForm() {
         document.querySelector('.formWrapper').style.display = 'none';
     }
-    return {listArray}
+
+    function addRemoveFunction() {
+        let removeButtons = document.querySelectorAll('.remove');
+        removeButtons.forEach(button => {
+            button.addEventListener('click', removeItem);
+        })
+    }
+
+    function removeItem() {
+        this.closest('.card').remove();
+        listArray.splice(this.closest('.card').getAttribute('cardCount'), 1);
+    }
+    return { listArray }
 })();
 
+// const projectList = (() => {
+
+//     function 
 
 
-// creates new projects for user to select from
-const projects = (() => {
-    const newArray = [];
-
-
-})()
-
+// })()
