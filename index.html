@@ -13,7 +13,7 @@
     <div class="contentWrapper">
         <div class="leftColumn">
             <p>Projects</p>
-            <button class="createProjects">Create Projects</button>
+            <button class="createProjects">Create Another Project</button>
             <ul>
             </ul>
         </div>
@@ -28,8 +28,8 @@
                 <input type="text" name="title" id="title">
                 <label for="description">Description: </label>
                 <textarea name="description" id="description" cols="50" rows="10"></textarea>
-                <label for="dueDate">Due Date:</label>
-                <input type="datetime-local" name="dueDate" id="dueDate">
+                <label for="dueDate">Due Date (required):</label>
+                <input type="datetime-local" name="dueDate" id="dueDate" required>
                 <p>Priority:</p>
                 <div id="radio-group">
                     <input type="radio" name="priority" id="low" value="Low">
