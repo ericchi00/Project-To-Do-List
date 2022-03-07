@@ -37,5 +37,18 @@ const createsToDoItem = (() => {
     return { createCard }
 })();
 
+const createNewProject = (() => {
+    const column = document.querySelector('.leftColumn');
+    const ul = document.createElement('ul');
+    column.appendChild(ul);
 
-export { createsToDoItem }
+
+    function createProjectList() {
+        const li = document.createElement('li');
+        ul.appendChild(li);
+    }
+    return {createProjectList}
+})();
+
+
+export { createsToDoItem, createNewProject }
