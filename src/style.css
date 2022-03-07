@@ -44,16 +44,17 @@ header {
   width: 20vw;
   display: flex;
   flex-direction: column;
-  padding-left: 1rem;
-  padding-top: 1rem;
+  padding: 1rem;
+  gap: 5px;
 }
 
 .createProjects {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 150px;
-  height: 25px;
+  box-sizing: border-box;
+  height:fit-content;
+  border: none;
+  font-size: large;
+  background-color: #DCDCDC;
+  padding: .5rem;
 }
 
 .content {
@@ -164,6 +165,7 @@ textarea {
 
 button:hover {
   filter: brightness(95%);
+  cursor: pointer;
 }
 
 .buttonWrapper {
@@ -182,4 +184,38 @@ button:hover {
 
 .complete {
   background-image: url("/src/images/complete.svg");
+}
+
+#enter {
+  background-image: url("/src/images/complete.svg");
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#enter:hover {
+  background-color: green;
+}
+
+.projectWrapper {
+  display: none;
+  justify-content: center;
+}
+
+
+#projectForm input {
+  width: 100px;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+}
+
+ul button {
+  border: none;
+  background-color: #DCDCDC;
+  font-size: large;
+  padding: .5rem;
 }
