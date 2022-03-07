@@ -22,6 +22,7 @@ const defaultList = (() => {
             cards[index].querySelector('.description').textContent = `${item.description}`;
             addRemoveFunction(index);
             editFunction(index);
+            completeItem(index);
         });
     }
 
@@ -117,6 +118,14 @@ const defaultList = (() => {
             form.reset();
             submit.style.display = 'block'
             submitEdit.style.display = 'none';
+        });
+    }
+
+    function completeItem(index) {
+        const card = document.querySelector(`[cardCount=${CSS.escape(index)}]`);
+        const complete = card.querySelector('.complete');
+        complete.addEventListener('click', () => {
+            card.style.opacity = '.6';
         });
     }
 

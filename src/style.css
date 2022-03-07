@@ -39,19 +39,33 @@ header {
 }
 
 .leftColumn {
+  position: relative;
   background-color: #DCDCDC;
   width: 20vw;
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.createProjects {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 150px;
+  height: 25px;
 }
 
 .content {
   display: flex;
-  margin: 3rem;
+  padding: 2rem;
   border-radius: 25px;
   flex: 1;
   width: 80vw;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1rem;
+  position: relative;
 }
 
 ul {
@@ -71,7 +85,8 @@ li {
   padding: 1rem;
   width: 225px;
   height: fit-content;
-  border: 1px aliceblue solid;
+  border: 3px rgb(26, 23, 23) solid;
+  background-color: whitesmoke;
 }
 
 .description {
@@ -130,12 +145,41 @@ textarea {
 
 #newItem {
   position: absolute;
+  top: 0;
   right: 0;
-  bottom: 0;
   width: 100px;
 
 }
 
 #submitEdit {
   display: none;
+}
+
+.remove, .edit, .complete {
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+button:hover {
+  filter: brightness(95%);
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
+.remove {
+  background-image: url("/src/images/remove.svg");
+}
+
+.edit {
+  background-image: url("/src/images/edit.svg");
+}
+
+.complete {
+  background-image: url("/src/images/complete.svg");
 }
