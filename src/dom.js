@@ -24,31 +24,39 @@ const createsToDoItem = (() => {
         list.appendChild(description);
 
 
+        const buttonWrapper = document.createElement('div')
+        buttonWrapper.classList.add('buttonWrapper')
+        const complete = document.createElement('button');
+        complete.classList.add('complete');
         const remove = document.createElement('button');
-        remove.textContent = 'Remove';
         remove.classList.add('remove');
         const edit = document.createElement('button');
-        edit.textContent = 'Edit';
         edit.classList.add('edit');
-        card.appendChild(remove);
-        card.appendChild(edit);
+        buttonWrapper.appendChild(complete);
+        buttonWrapper.appendChild(edit);
+        buttonWrapper.appendChild(remove);
+        card.appendChild(buttonWrapper);
     }
 
     return { createCard }
 })();
 
-const createNewProject = (() => {
-    const column = document.querySelector('.leftColumn');
-    const ul = document.createElement('ul');
-    column.appendChild(ul);
+const createProjectList = (() => {
 
-
-    function createProjectList() {
-        const li = document.createElement('li');
-        ul.appendChild(li);
+    addProjectList();
+    function addProjectList() {
+        const enter = document.querySelector('#enter');
+        const projectWrapper = document.querySelector('.projectWrapper');
+        const form = document.querySelector('#projectForm');
+        enter.addEventListener('click', () => {
+            const li = document.createElement('button');
+            li.textContent = document.querySelector('#project').value;
+            document.querySelector('ul').appendChild(li);
+            projectWrapper.style.display = 'none';
+            form.reset();
+        });
     }
-    return {createProjectList}
+    return {};
 })();
 
-
-export { createsToDoItem, createNewProject }
+export { createsToDoItem, createProjectList }
