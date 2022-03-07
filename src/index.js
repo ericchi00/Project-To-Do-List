@@ -132,12 +132,21 @@ const defaultList = (() => {
     return { listArray }
 })();
 
-// const projectList = (() => {
+const projectList = (() => {
 
-//     function 
+    displayProject();
+    function displayProject() {
+        const projectButton = document.querySelector('.createProjects');
+        projectButton.addEventListener('click', () => {
+            if (document.querySelector('.projectWrapper').style.display === 'flex') {
+                document.querySelector('.projectWrapper').style.display = 'none';
+            } else {
+                document.querySelector('.projectWrapper').style.display = 'flex';
+            }
+        })
+    }
 
-
-// })()
+})()
 
 
 export { defaultList }
