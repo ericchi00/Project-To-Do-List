@@ -12,8 +12,16 @@
     <header>To Do List</header>
     <div class="contentWrapper">
         <div class="leftColumn">
-            <button class="createProjects">Create Project</button>
-            <p>Projects</p>
+            <h1>Projects</h1>
+            <button class="createProjects"> + Add Project</button>
+            <div class="projectWrapper">
+                <form action="test" id="projectForm">
+                    <fieldset>
+                        <input type="text" name="project" id="project">
+                        <button type="button" id="enter"></button>
+                    </fieldset>
+                </form>
+            </div>
             <ul>
             </ul>
         </div>
