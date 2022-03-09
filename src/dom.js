@@ -1,7 +1,10 @@
+import { newArray, defaultList, projectList } from './index';
+import { format, parseISO } from 'date-fns';
+
 const createsToDoItem = (() => {
 
     //creates card elements for obj to be put into
-    function createCard() {
+    function createCard(item, arr) {
         const content = document.querySelector('.content');
         const card = document.createElement('div');
         card.classList.add('card');
@@ -11,18 +14,18 @@ const createsToDoItem = (() => {
         card.appendChild(list);
         const title = document.createElement('li');
         const dueDate = document.createElement('li');
-        const priority = document.createElement('li');
         const description = document.createElement('li');
         title.classList.add('title');
         dueDate.classList.add('dueDate');
-        priority.classList.add('priority');
         description.classList.add('description');
+
+        title.textContent = `${item.title}`;
+        dueDate.textContent = `${item.dueDate}`;
+        description.textContent = `${item.description}`;
 
         list.appendChild(title);
         list.appendChild(dueDate);
-        list.appendChild(priority);
         list.appendChild(description);
-
 
         const buttonWrapper = document.createElement('div')
         buttonWrapper.classList.add('buttonWrapper')
@@ -36,8 +39,10 @@ const createsToDoItem = (() => {
         buttonWrapper.appendChild(edit);
         buttonWrapper.appendChild(remove);
         card.appendChild(buttonWrapper);
-    }
 
+        card.setAttribute('id', arr.length);
+        card.style.opacity = '1';
+    }
     return { createCard }
 })();
 
@@ -54,6 +59,18 @@ const createProjectList = (() => {
             document.querySelector('ul').appendChild(li);
             projectWrapper.style.display = 'none';
             form.reset();
+        });
+    }
+
+    defaultProject();
+    function defaultProject() {
+        const defaultButton = document.querySelector('#defaultProject');
+        defaultButton.addEventListener('click', () => {
+            const content = document.querySelector('.content');
+            while (typeof content.querySelector('.newItemWrapper').nextSibling === 'undefined') {
+                content.removeChild(content.lastChild);
+            }
+            defaultList.displayItems(defaultList.listArray);
         });
     }
     return {};
