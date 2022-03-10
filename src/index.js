@@ -1,54 +1,57 @@
 import './style.css';
 import { createsToDoItem } from './dom';
-import { format, parseISO } from 'date-fns';
+import { projects } from './projects';
 
-
-const Item = (title, dueDate, description) => {
-    return { title, dueDate, description };
-};
-
-const newArray = (() => {
-    const newArr = [];
-    return { newArr }
-
-    module.exports = function () {
-        return new newArray();
+const itemList = (() => {
+    const body = document.querySelector('body');
+    //sets id to 0 so that projectsList index knows which project we currently are on
+    setPageToDefaultProject();
+    function setPageToDefaultProject() {
+        body.setAttribute('index', 0);
     }
-})();
+    let index = body.getAttribute('index');
+    let list = projects.projectsList[index].items;
 
-const defaultList = (() => {
-    let list = [];
+    updateIndex();
+    //updates index and list after a change is detected 
+    function updateIndex() {
+        const body = document.querySelector('body');
+        const callBack = (mutationsList) => {
+            for (const mutation of mutationsList) {
+                index = body.getAttribute('index');
+                list = projects.projectsList[index].items;
+            }
+        }
+        const observer = new MutationObserver(callBack);
+        observer.observe(body, { attributes: true })
+    }
+
+
+
+    const Item = (title, dueDate, description) => {
+        return { title, dueDate, description };
+    };
 
     const submit = document.querySelector('#submit');
     const form = document.querySelector('#form');
 
-    // function displayItems(arr) {
-    //     createsToDoItem.createCard();
-    //     const cards = document.querySelectorAll('.card');
-    //     arr.forEach((item, index) => {
-    //         cards[index].setAttribute('cardCount', index);
-    //         cards[index].querySelector('.title').textContent = 'Title: ' + `${item.title}`;
-    //         cards[index].querySelector('.dueDate').textContent = 'Due Date: ' + format(new Date(`${item.dueDate}`), "MM/dd/yy HH:mm");
-    //         cards[index].querySelector('.priority').textContent = 'Priority: ' + `${item.priority}`;
-    //         cards[index].querySelector('.description').textContent = `${item.description}`;
-    //         addRemoveFunction(index);
-    //         completeItem(index);
-    //         editFunction(index);
-    //         submitEdit(index);
-    //     });
-    // }
-
-
-    //add an error message when due date & priority are left empty: in progress
+    // add an error message when due date & priority are left empty: in progress
     addToList();
     function addToList() {
         submit.addEventListener('click', () => {
             const newItem = getItemFromInput();
             createsToDoItem.createCard(newItem, list);
             list.push(newItem);
+            console.table(list);
             form.reset();
             closeForm();
         })
+    }
+
+    function displayItems(arr) {
+        for (let i = 0; i < arr.length; i++) {
+            createsToDoItem.createCard(arr[i], arr);
+        }
     }
 
     function getItemFromInput() {
@@ -62,8 +65,10 @@ const defaultList = (() => {
     function closeOpenForm() {
         const submitEdit = document.querySelector('#submitEdit');
         const submit = document.querySelector('#submit');
-        document.querySelector('#newItem').addEventListener('click', openForm);
-        document.querySelector('#close').addEventListener('click', () => {
+        const newItem = document.querySelector('#newItem');
+        const closeButton = document.querySelector('#close')
+        newItem.addEventListener('click', openForm);
+        closeButton.addEventListener('click', () => {
             closeForm();
             form.reset();
             submitEdit.style.display = 'none';
@@ -153,20 +158,35 @@ const defaultList = (() => {
 
     function completeItem(e) {
         const card = e.target.parentNode.parentNode;
-        console.log(card);
         if (card.style.opacity === '1') {
             card.style.opacity = '.3';
         } else {
-        card.style.opacity = '1';
+            card.style.opacity = '1';
         }
     }
-    return { list }
+
+    projectListListeners();
+    function projectListListeners() {
+        const column = document.querySelector('.leftColumn').querySelector('ul');
+        const content = document.querySelector('.content');
+        column.addEventListener('click', (e) => {
+            const id = e.target.getAttribute('index');
+            body.setAttribute('index', id);
+            while (content.firstChild) {
+                content.removeChild(content.lastChild)
+            }
+            displayItems(projects.projectsList[id].items);
+            console.log(projects.projectsList);
+
+        });
+    }
+    return { list, index, displayItems }
 })();
 
 const projectList = (() => {
 
-    displayProject();
-    function displayProject() {
+    displayProjectInput();
+    function displayProjectInput() {
         const projectButton = document.querySelector('.createProjects');
         projectButton.addEventListener('click', () => {
             if (document.querySelector('.projectWrapper').style.display === 'flex') {
@@ -176,5 +196,4 @@ const projectList = (() => {
             }
         })
     }
-
 })();
