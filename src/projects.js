@@ -8,15 +8,11 @@ const projects = (() => {
         }
     }
 
-    //creates the first project list
+    //projectsList[0] will always be the default Project
     addProject('defaultProject');
     function addProject(title) {
         const project = new Project(title);
         projectsList.push(project);
-    }
-
-    function deleteProject() {
-
     }
 
     return {
