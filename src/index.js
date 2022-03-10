@@ -1,24 +1,30 @@
 import './style.css';
-import { createsToDoItem } from './dom';
+import { createsToDoItem, projectColumn, forms } from './dom';
 import { projects } from './projects';
 
 const itemList = (() => {
-    const body = document.querySelector('body');
+
+    //item constructor 
+    const Item = (title, dueDate, description) => {
+        return { title, dueDate, description };
+    };
+
+    const header = document.querySelector('header');
     //sets id to 0 so that projectsList index knows which project we currently are on
     setPageToDefaultProject();
     function setPageToDefaultProject() {
-        body.setAttribute('index', 0);
+        header.setAttribute('index', 0);
     }
-    let index = body.getAttribute('index');
+    let index = header.getAttribute('index');
     let list = projects.projectsList[index].items;
 
     updateIndex();
     //updates index and list after a change is detected 
     function updateIndex() {
-        const body = document.querySelector('body');
+        const body = document.querySelector('header');
         const callBack = (mutationsList) => {
             for (const mutation of mutationsList) {
-                index = body.getAttribute('index');
+                index = header.getAttribute('index');
                 list = projects.projectsList[index].items;
             }
         }
@@ -26,62 +32,26 @@ const itemList = (() => {
         observer.observe(body, { attributes: true })
     }
 
-
-
-    const Item = (title, dueDate, description) => {
-        return { title, dueDate, description };
-    };
-
     const submit = document.querySelector('#submit');
     const form = document.querySelector('#form');
 
-    // add an error message when due date & priority are left empty: in progress
     addToList();
     function addToList() {
         submit.addEventListener('click', () => {
             const newItem = getItemFromInput();
-            createsToDoItem.createCard(newItem, list);
+            createsToDoItem.createCard(newItem, list.length);
             list.push(newItem);
-            console.table(list);
             form.reset();
-            closeForm();
+            forms.closeForm();
         })
     }
 
-    function displayItems(arr) {
-        for (let i = 0; i < arr.length; i++) {
-            createsToDoItem.createCard(arr[i], arr);
-        }
-    }
-
+    //makes item from the input
     function getItemFromInput() {
         const title = document.querySelector('#title').value;
         const dueDate = document.querySelector('#dueDate').value;
         const description = document.querySelector('#description').value;
         return Item(title, dueDate, description);
-    }
-
-    closeOpenForm();
-    function closeOpenForm() {
-        const submitEdit = document.querySelector('#submitEdit');
-        const submit = document.querySelector('#submit');
-        const newItem = document.querySelector('#newItem');
-        const closeButton = document.querySelector('#close')
-        newItem.addEventListener('click', openForm);
-        closeButton.addEventListener('click', () => {
-            closeForm();
-            form.reset();
-            submitEdit.style.display = 'none';
-            submit.style.display = 'block';
-        });
-    }
-
-    function openForm() {
-        document.querySelector('.formWrapper').style.display = 'flex';
-    }
-
-    function closeForm() {
-        document.querySelector('.formWrapper').style.display = 'none';
     }
 
     eventHandlers();
@@ -106,24 +76,17 @@ const itemList = (() => {
         resetID();
     }
 
-    //using MutationObserver to update the cards nodelist as it throws errors when it's called before any card is made
+    //throws error as cards isn't updated till it's deleted but it still works
     function resetID() {
-        const content = document.querySelector('.content');
-        const config = { attributes: true, childList: true, subtree: true };
-
-        const callBack = function (mutationsList, observer) {
-            if (mutationsList > 0) {
-                let cards = Array.from(document.querySelectorAll('.card'));
-                if (cards.length > 0) {
-                    for (let i = 0; i <= cards.length; i++) {
-                        cards[i].setAttribute('id', `${i}`)
-                    }
-                }
-            }
+        let cards = document.querySelectorAll('.card');
+        for (let i = 0; i <= cards.length; i++) {
+            cards[i].setAttribute('id', i);
         }
-        const observer = new MutationObserver(callBack);
-        observer.observe(content, config);
     }
+
+
+
+
 
     function editItem(e) {
         const formTitle = form.querySelector('#title');
@@ -152,7 +115,6 @@ const itemList = (() => {
             closeForm();
             submit.style.display = 'block'
             submitEdit.style.display = 'none';
-            console.table(list);
         }, { once: true });
     }
 
@@ -168,32 +130,27 @@ const itemList = (() => {
     projectListListeners();
     function projectListListeners() {
         const column = document.querySelector('.leftColumn').querySelector('ul');
-        const content = document.querySelector('.content');
         column.addEventListener('click', (e) => {
-            const id = e.target.getAttribute('index');
-            body.setAttribute('index', id);
-            while (content.firstChild) {
-                content.removeChild(content.lastChild)
+            if (e.target.matches('.projectButton') || e.target.matches('#defaultProject')) {
+                const id = e.target.getAttribute('index');
+                header.setAttribute('index', id);
+                projectColumn.displayItems(projects.projectsList[id].items);
+                //removes the project on dom & array
+            } else if (e.target.matches('.projectRemove')) {
+                const id = e.target.nextSibling.getAttribute('index');
+                e.target.parentNode.remove();
+                projects.projectsList.splice(id, 1);
+                resetProjectID();
             }
-            displayItems(projects.projectsList[id].items);
-            console.log(projects.projectsList);
-
         });
     }
-    return { list, index, displayItems }
-})();
 
-const projectList = (() => {
+    function resetProjectID() {
+        let projectButtons = document.querySelectorAll('.projectButton');
+        for (let i = 1; i <= projects.projectsList.length; i++) {
+            projectButtons[i-1].setAttribute('index', i);
+        }
 
-    displayProjectInput();
-    function displayProjectInput() {
-        const projectButton = document.querySelector('.createProjects');
-        projectButton.addEventListener('click', () => {
-            if (document.querySelector('.projectWrapper').style.display === 'flex') {
-                document.querySelector('.projectWrapper').style.display = 'none';
-            } else {
-                document.querySelector('.projectWrapper').style.display = 'flex';
-            }
-        })
     }
+    return { list, index }
 })();
