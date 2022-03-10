@@ -1,5 +1,4 @@
-import { newArray, defaultList, projectList } from './index';
-import { format, parseISO } from 'date-fns';
+import { projects } from './projects';
 
 const createsToDoItem = (() => {
 
@@ -46,34 +45,32 @@ const createsToDoItem = (() => {
     return { createCard }
 })();
 
-const createProjectList = (() => {
 
+
+const createProjectList = (() => {
     addProjectList();
+    //creates new project item and adds it to the projectList array
     function addProjectList() {
         const enter = document.querySelector('#enter');
         const projectWrapper = document.querySelector('.projectWrapper');
         const form = document.querySelector('#projectForm');
+
         enter.addEventListener('click', () => {
+            const newProjectname = document.querySelector('#project').value;
+            if (newProjectname === null || newProjectname === "") return;
             const li = document.createElement('button');
             li.textContent = document.querySelector('#project').value;
             document.querySelector('ul').appendChild(li);
-            projectWrapper.style.display = 'none';
+            li.classList.add(`${document.querySelector('#project').value}`);
+            projectWrapper.style.display = 'none'; //closes form
             form.reset();
+            projects.addProject(newProjectname);
+            console.log(projects.projectsList);
+            li.setAttribute('index', projects.projectsList.length-1);
         });
     }
 
-    defaultProject();
-    function defaultProject() {
-        const defaultButton = document.querySelector('#defaultProject');
-        defaultButton.addEventListener('click', () => {
-            const content = document.querySelector('.content');
-            while (typeof content.querySelector('.newItemWrapper').nextSibling === 'undefined') {
-                content.removeChild(content.lastChild);
-            }
-            defaultList.displayItems(defaultList.listArray);
-        });
-    }
-    return {};
 })();
 
-export { createsToDoItem, createProjectList }
+
+export { createsToDoItem }
