@@ -50,6 +50,25 @@ const createsToDoItem = (() => {
 
 const projectColumn = (() => {
 
+    function displayProjects(title) {
+        projects.pushProject(title);
+        const projectWrapper = document.querySelector('.projectWrapper');
+        const form = document.querySelector('#projectForm');
+        const ul = document.querySelector('.leftColumn').querySelector('ul');
+        const projectContainer = document.createElement('div');
+        projectContainer.classList.add('projectContainer');
+        const projectButton = document.createElement('button');
+        const projectRemove = document.createElement('button');
+        projectRemove.classList.add('projectRemove');
+        projectButton.classList.add('projectButton');
+        projectRemove.textContent = 'X';
+        projectButton.textContent = title;
+        projectContainer.appendChild(projectRemove);
+        projectContainer.appendChild(projectButton);
+
+        ul.appendChild(projectContainer);
+    }
+
     //adds a new project item to the column
     function projectHandler() {
         const projectWrapper = document.querySelector('.projectWrapper');
@@ -95,7 +114,7 @@ const projectColumn = (() => {
         }
     }
 
-    return { displayItems }
+    return { displayItems, displayProjects }
 })();
 
 const forms = (() => {
@@ -137,7 +156,7 @@ const forms = (() => {
         document.querySelector('.formWrapper').style.display = 'none';
     }
 
-    return { closeForm }
+    return { openForm, closeForm }
 })();
 
 

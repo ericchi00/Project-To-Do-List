@@ -1,6 +1,7 @@
 import './style.css';
 import { createsToDoItem, projectColumn, forms } from './dom';
 import { projects } from './projects';
+import { localStorageFunctions } from './local';
 
 const itemList = (() => {
 
@@ -43,6 +44,7 @@ const itemList = (() => {
             list.push(newItem);
             form.reset();
             forms.closeForm();
+            updateLocalStorage();
         })
     }
 
@@ -73,6 +75,7 @@ const itemList = (() => {
     function removeItem(e) {
         e.target.parentNode.parentNode.remove();
         list.splice(e.target.parentNode.parentNode.getAttribute('id'), 1);
+        updateLocalStorage();
         resetID();
     }
 
@@ -84,10 +87,6 @@ const itemList = (() => {
         }
     }
 
-
-
-
-
     function editItem(e) {
         const formTitle = form.querySelector('#title');
         const formDueDate = form.querySelector('#dueDate');
@@ -96,7 +95,7 @@ const itemList = (() => {
 
         const index = e.target.parentNode.parentNode.getAttribute('id');
         const card = e.target.parentNode.parentNode;
-        openForm();
+        forms.openForm();
         formTitle.value = list[index].title;
         formDueDate.value = list[index].dueDate;
         formDescription.value = list[index].description;
@@ -112,9 +111,10 @@ const itemList = (() => {
             card.querySelector('.dueDate').textContent = `${list[index].dueDate}`;
             card.querySelector('.description').textContent = `${list[index].description}`;
             form.reset();
-            closeForm();
+            forms.closeForm();
             submit.style.display = 'block'
             submitEdit.style.display = 'none';
+            updateLocalStorage();
         }, { once: true });
     }
 
@@ -138,8 +138,10 @@ const itemList = (() => {
                 //removes the project on dom & array
             } else if (e.target.matches('.projectRemove')) {
                 const id = e.target.nextSibling.getAttribute('index');
+                const projectTitle = e.target.nextSibling.textContent;
                 e.target.parentNode.remove();
                 projects.projectsList.splice(id, 1);
+                removeProjectLocalStorage(projectTitle);
                 resetProjectID();
             }
         });
@@ -148,9 +150,19 @@ const itemList = (() => {
     function resetProjectID() {
         let projectButtons = document.querySelectorAll('.projectButton');
         for (let i = 1; i <= projects.projectsList.length; i++) {
-            projectButtons[i-1].setAttribute('index', i);
+            projectButtons[i - 1].setAttribute('index', i);
         }
 
     }
-    return { list, index }
+
+    function removeProjectLocalStorage(title) {
+        localStorage.removeItem(title);
+    }
+
+    function updateLocalStorage() {
+        const projectTitle = projects.projectsList[index].title;
+        localStorage.setItem(projectTitle, JSON.stringify(projects.projectsList[index]));
+    }
+
+
 })();

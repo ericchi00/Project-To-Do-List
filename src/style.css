@@ -255,9 +255,14 @@ button:hover {
   justify-content: center;
 }
 
+#projectForm fieldset {
+  display: flex;
+  justify-content: center;
+}
+
 
 #projectForm input {
-  width: 75px;
+  width: 70%;
 }
 
 ul {
