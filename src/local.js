@@ -20,7 +20,7 @@ const localStorageFunctions = (() => {
             Object.keys(localStorage).forEach((key, index) => {
                 const retrievedData = localStorage.getItem(key);
                 const itemArray = JSON.parse(retrievedData).items;
-                if (JSON.stringify(key) === projects.projectsList[index].title) {
+                if (key === projects.projectsList[index].title) {
                     for (let i = 0; i < itemArray.length; i++) {
                         projects.projectsList[index].items.push(itemArray[i]);
                     }
