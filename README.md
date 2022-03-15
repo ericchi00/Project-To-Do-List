@@ -15,3 +15,11 @@ Create separate "folders" that still retains each to dos in each list
 Publishing to GitHub pages breaks local storage -- will switch to session storage
 
 Putting a Space in the project name will break local storage -- fix after session storage
+
+
+## Learned
+Learned how to work with objects and arrays more thoroughly
+
+Also learned importance of separating functions into multiple Javascript files as it makes it significantly easier to troubleshoot and read
+
+Learned a bit more about webpack and the different packages/uses
