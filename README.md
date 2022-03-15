@@ -16,6 +16,10 @@ Publishing to GitHub pages breaks local storage -- will switch to session storag
 
 Putting a Space in the project name will break local storage -- fix after session storage
 
+Refactor code even more to make it easier to read and write more comments => have each js file only have one module
+
+Remove session/local storage and implement a backend when I learn how
+
 
 ## Learned
 Learned how to work with objects and arrays more thoroughly
