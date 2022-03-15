@@ -1,12 +1,17 @@
 # Project-To-Do-List
-creating a todo list 
-
+Simple to do list that follows The Odin Project [assignment](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/todo-list)
 
 ## [Live Demo](https://ericchi00.github.io/Project-To-Do-List/)
 
+## Technologies
+Created using HTML, CSS and Javascript
 
-To Dos:
+## Features
+Create to do item with title, description, and due date
 
-Publishing to github pages breaks local storage
-Putting a space in the project name will break local storage
-Fix is to replace local storage with session storage
+Create separate "folders" that still retains each to dos in each list
+
+## Status
+Publishing to GitHub pages breaks local storage -- will switch to session storage
+
+Putting a Space in the project name will break local storage -- fix after session storage
